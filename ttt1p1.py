@@ -18,13 +18,13 @@ else:
     single = True
 
 buttons = []
-for i in range(9):
-    btn = Button(root, text="", font=("Arial 60 bold"), height=2, width=4, command=lambda i=i: ttt(i))
-    btn.grid(row=int(i / 3), column=i % 3, sticky=S + N + E + W)
+for i in range(81):
+    btn = Button(root, text="", font=("Arial 30 bold"), height=1, width=2, command=lambda i=i: ttt(i))
+    btn.grid(row=int(i / 9), column=i % 9, sticky=S + N + E + W)
     buttons.append(btn)
 
-restartButton = Button(root, text=("Restart"), font=("Arial 30 bold"), height=4, width=8, command=lambda: restart())
-restartButton.grid(row=3, columnspan=3, sticky=S + N + E + W)
+restartButton = Button(root, text=("Restart"), font=("Arial 30 bold"), height=1, width=2, command=lambda: restart())
+restartButton.grid(row=9, columnspan=9, sticky=S + N + E + W)
 
 
 def restart():
