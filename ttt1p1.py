@@ -19,7 +19,7 @@ else:
 
 buttons = []
 for i in range(81):
-    btn = Button(root, text="", font=("Arial 30 bold"), height=1, width=2, command=lambda i=i: ttt(i))
+    btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2, command=lambda i=i: ttt(i))
     btn.grid(row=int(i / 9), column=i % 9, sticky=S + N + E + W)
     buttons.append(btn)
 
