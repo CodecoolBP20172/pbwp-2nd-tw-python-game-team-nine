@@ -16,27 +16,35 @@ playfield = np.array([[" "] * 9] * 9)
 
 
 def wincheck():
-    lofasz = 0
     playerwins = False
-    if playerwins == False:
-        for k in range(9):
-            for i in range(3):  # horizontal check
-                wincount = 0
-                for j in range(3):
-                    wincount = wincount + calctab[i + (k // 3) * 3, j + (k % 3) * 3]
-                if wincount == 3 or wincount == -3:
-                    playerwins = True
-                    print("lofasz")
-                    break
-            if playerwins:
+    if playerwins is False:
+        k, i = None, None
+        x, y = k, i
+        o = 0
+        for n in range(81):
+            if n % 3 == 0:
+                wincounth, wincountv, wincountd, wincountd2 = 0, 0, 0, 0
+            k = n // 9
+            i = n // 3 - ((n // 9) * 3) + ((n // 27) * 3)
+            j = n - (n // 3 - ((n // 9) * 3) + ((n // 27) * 3)) * 3 - (n // 9) * 6
+            wincounth = wincounth + calctab[i, j]
+            wincountv = wincountv + calctab[j, i]
+            if k != x or i % 3 == 0:
+                o = o + 1
+                x, y = k, i
+                wincountd = wincountd + calctab[i + n % 3, j]
+                wincountd2 = wincountd2 + calctab[i + n % 3, n // 9 * 3 + abs(j % 3 - 2) - n // 27 * 9]
+                if n % 3 == 2:
+                    print("n: ", n, "d: ", wincountd, "d2: ", wincountd2, "k: ", k)
+
+            if abs(wincounth) == 3 or abs(wincountv) == 3 or abs(wincountd) == 3 or abs(wincountd2) == 3:
+                playerwins = True
+                print("lofasz")
                 break
 
-                print(lofasz, ": ", wincount)
-                lofasz = lofasz + 1
-
-    if wincount == 3:
+    if wincounth == 3 or wincountv == 3 or wincountd == 3 or wincountd2 == 3:
         return "x"
-    elif wincount == -3:
+    elif wincounth == -3 or wincountv == -3 or wincountd == -3 or wincountd2 == -3:
         return "o"
     else:
         return "senki"
@@ -65,10 +73,7 @@ while wincheck() == "senki":
     print(calctab)
     playerturn(1)
     # print(playfield)
-    print(wincheck())
     if wincheck() == "senki":
         print(calctab)
         playerturn(2)
         # print(playfield)
-
-
