@@ -13,11 +13,18 @@ calctabsmall = np.array([[0] * 3] * 3)
 playfield = np.array([[" "] * 9] * 9)
 playfieldsmall = np.array([[" "] * 3] * 3)
 
+bigbuttons = []
+for j in range(9):
+    btn2 = Button(root, text="", state=DISABLED, font=("Arial 45 bold"), height=1, width=1)
+    btn2.grid(row=j // 3 * 3, column=j % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
+    bigbuttons.append(btn2)
+
 buttons = []
 for i in range(81):
     btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2, command=lambda i=i: ttt(i))
     btn.grid(row=int(i / 9), column=i % 9, sticky=S + N + E + W)
     buttons.append(btn)
+
 
 # midlabel = Label(root, text="")
 # midlabel.grid(row=0, column=3, padx=10)
@@ -54,14 +61,14 @@ def ttt(n):
     bigwincheck()
     print(calctab)
     print(calctabsmall)
-    for i in range(9):
-        if calctabsmall[i // 3, i % 3] == 1:
+    # for i in range(9):
+    #     if calctabsmall[i // 3, i % 3] == 1:
 
-            btn2 = Button(root, text="X", state=DISABLED, font=("Arial 45 bold"), height=1, width=1)
-            btn2.grid(row=i // 3 * 3, column=i % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
-        if calctabsmall[i // 3, i % 3] == -1:
-            btn2 = Button(root, text="O", font=("Arial 15 bold"), height=3, width=2)
-            btn2.grid(row=i // 3 * 3, column=i % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
+    #         btn2 = Button(root, text="X", state=DISABLED, font=("Arial 45 bold"), height=1, width=1)
+    #         btn2.grid(row=i // 3 * 3, column=i % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
+    #     if calctabsmall[i // 3, i % 3] == -1:
+    #         btn2 = Button(root, text="O", state=DISABLED, font=("Arial 15 bold"), height=3, width=2)
+    #         btn2.grid(row=i // 3 * 3, column=i % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
     deactivate_buttons(n)
 
 
