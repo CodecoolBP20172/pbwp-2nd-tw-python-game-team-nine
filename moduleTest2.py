@@ -28,34 +28,41 @@ restartButton.grid(row=9, columnspan=9, sticky=S + N + E + W)
 bclick = True
 
 
+def deactivate_buttons(n):
+    for i in range(81):
+        buttons[i].configure(state=DISABLED)
+    i, j = n // 9, n % 9
+    si, sj = i % 3, j % 3
+    # (si vagy sj * 3)+ 0, 1, 2
+    for c in range(9):
+        bi = (si * 3 + c // 3) * 9 + (sj * 3 + c % 3)
+        buttons[bi].configure(state=NORMAL)
+
+
 def ttt(n):
+
     print(n)
     global bclick
     if buttons[n]["text"] == "" and bclick:  # player 1 click
         buttons[n]["text"] = "X"
         bclick = False
         calctab[n // 9, n % 9] = 1
-        # return i + 10
-        n = n + 100
-        print(n)
     elif buttons[n]["text"] == "" and bclick is False:  # player 2 click
         buttons[n]["text"] = "O"
         bclick = True
         calctab[n // 9, n % 9] = -1
-        # return i + 10
-        n = n + 200
-        print(n)
     bigwincheck()
     print(calctab)
     print(calctabsmall)
     for i in range(9):
         if calctabsmall[i // 3, i % 3] == 1:
 
-            btn2 = Button(root, text="X", font=("Arial 45 bold"), height=1, width=1)
+            btn2 = Button(root, text="X", state=DISABLED, font=("Arial 45 bold"), height=1, width=1)
             btn2.grid(row=i // 3 * 3, column=i % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
         if calctabsmall[i // 3, i % 3] == -1:
             btn2 = Button(root, text="O", font=("Arial 15 bold"), height=3, width=2)
             btn2.grid(row=i // 3 * 3, column=i % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
+    deactivate_buttons(n)
 
 
 def restart():
