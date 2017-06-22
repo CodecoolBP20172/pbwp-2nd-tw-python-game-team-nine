@@ -50,22 +50,8 @@ def ttt(n):
     print(calctabsmall)
     for i in range(9):
         if calctabsmall[i // 3, i % 3] == 1:
-            for j in range(9):
-                print("lofasz")
-                buttons[0].grid_forget()
-                buttons[1].grid_forget()
-                buttons[2].grid_forget()
-                buttons[9].grid_forget()
-                buttons[10].grid_forget()
-                buttons[11].grid_forget()
-                buttons[18].grid_forget()
-                buttons[19].grid_forget()
-                buttons[20].grid_forget()
-
             btn2 = Button(root, text="X", font=("Arial 15 bold"), height=3, width=2)
-            btn2.grid(row=0, column=0, rowspan=3, columnspan=3, sticky=S + N + W + E)
-
-
+            btn2.grid(row=i, column=i % 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
 
 def restart():
     # if wincheck() == "o" or wincheck() == "x" or wincheck() == "tie":
