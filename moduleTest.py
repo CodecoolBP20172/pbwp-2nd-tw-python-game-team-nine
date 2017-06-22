@@ -4,6 +4,7 @@ from random import randint
 from tkinter import messagebox
 import sys
 
+
 calctab = np.array([[0] * 9] * 9)
 calctabsmall = np.array([[0] * 3] * 3)
 playfield = np.array([[" "] * 9] * 9)
