@@ -17,7 +17,8 @@ for j in range(9):
 
 buttons = []
 for i in range(81):
-    btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2, bg="pale green", command=lambda i=i: playermove(i))
+    btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2,
+                 bg="pale green", command=lambda i=i: playermove(i))
     btn.grid(row=int(i / 9), column=i % 9, sticky=S + N + E + W)
     buttons.append(btn)
     if i % 3 == 0:
@@ -30,7 +31,8 @@ for i in range(81):
         buttons[i].grid(pady=(0, 10))
 
 
-restartButton = Button(root, text=("Restart"), font=("Arial 30 bold"), state=DISABLED, height=1, width=2, command=lambda: restart())
+restartButton = Button(root, text=("Restart"), font=("Arial 30 bold"),
+                       state=DISABLED, height=1, width=2, command=lambda: restart())
 restartButton.grid(row=9, columnspan=9, sticky=S + N + E + W)
 
 bclick = True
@@ -161,13 +163,18 @@ def smallwincheck():
                 playerwins = True
                 break
 
-        n = 0
-        for i in range(3):
-            for j in range(3):
-                if calctab[i, j] == 0:
-                    n = n + 1
-        if n == 0:
-            return "tie"
+    n, m = 0, 0
+    for i in range(9):  # check if the two diagonals are tied or not
+        if i % 3 == 0:
+            n, m = n + calctabsmall[i // 3, i // 3], m + calctabsmall[i // 3, 2 - i // 3]
+    if n == 18 or m == 18:
+        return "tie"
+
+    for i in range(9):
+        if calctabsmall[i // 3, i // 3] == 0:
+            break  # this cycle ends if any of the fields are still played
+        if i == 8:
+            return "tie"  # if all of the fields are finished, also the game is
 
     if wincounth == 3 or wincountv == 3 or wincountd == 3 or wincountd2 == 3:
         return "x"
