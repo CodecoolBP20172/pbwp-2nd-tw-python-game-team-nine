@@ -17,7 +17,7 @@ for j in range(9):
 
 buttons = []
 for i in range(81):
-    btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2, bg="pale green", command=lambda i=i: ttt(i))
+    btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2, bg="pale green", command=lambda i=i: playermove(i))
     btn.grid(row=int(i / 9), column=i % 9, sticky=S + N + E + W)
     buttons.append(btn)
     if i % 3 == 0:
@@ -50,7 +50,7 @@ def deactivate_buttons(n):
         buttons[bi].configure(state=NORMAL, background="pale green")
 
 
-def ttt(n):
+def playermove(n):
     if smallwincheck() != "y" and smallwincheck() != "x" and smallwincheck() != "tie":
         global bclick
         c = 0
