@@ -6,18 +6,22 @@ import sys
 root = Tk()
 root.title("Ultimate Tic Tac Toe")
 
+# Matrix for background calculations.
 calctab = np.array([[0] * 9] * 9)
 calctabsmall = np.array([[0] * 3] * 3)
 
+# Buttons for the big table.
 bigbuttons = []
 for j in range(9):
     btn2 = Button(root, text="", state=DISABLED, font=("Arial 45 bold"), height=1, width=1)
     btn2.grid(row=j // 3 * 3, column=j % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
     bigbuttons.append(btn2)
 
+# Buttons for the small table.
 buttons = []
 for i in range(81):
-    btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2, bg="pale green", command=lambda i=i: playermove(i))
+    btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2,
+                 bg="pale green", command=lambda i=i: playermove(i))
     btn.grid(row=int(i / 9), column=i % 9, sticky=S + N + E + W)
     buttons.append(btn)
     if i % 3 == 0:
@@ -30,12 +34,23 @@ for i in range(81):
         buttons[i].grid(pady=(0, 10))
 
 
-restartButton = Button(root, text=("Restart"), font=("Arial 30 bold"), state=DISABLED, height=1, width=2, command=lambda: restart())
+restartButton = Button(root, text=("Restart"), font=("Arial 30 bold"),
+                       state=DISABLED, height=1, width=2, command=lambda: restart())
 restartButton.grid(row=9, columnspan=9, sticky=S + N + E + W)
 
+messagebox.showinfo("Game Rules", "Like the original Tic-Tac-Toe, Player 1"
+                    "is represented by X and Player 2 is represented by O."
+                    "To start the game, Player 1 places an X on any one of the 81 empty squares, "
+                    "and then players alternate turns. However, after the initial move, "
+                    "players must play the board that mirrors the square from the previous player."
+                    "If the next move is to a board that has already been won, then that player may choose "
+                    "an open square on any board for that turn. You win boards as usual, but you win the game "
+                    "when you win three boards together (across rows, columns or diagnols).")
+
+# Global boolean for switching between player turns.
 bclick = True
 
-
+# Enables buttons according to the game rules.
 def deactivate_buttons(n):
     for i in range(81):
         buttons[i].configure(state=DISABLED, background="misty rose")
@@ -49,7 +64,7 @@ def deactivate_buttons(n):
         bi = (si * 3 + c // 3) * 9 + (sj * 3 + c % 3)
         buttons[bi].configure(state=NORMAL, background="pale green")
 
-
+# Playermove activated by button press.
 def playermove(n):
     if smallwincheck() != "y" and smallwincheck() != "x" and smallwincheck() != "tie":
         global bclick
@@ -98,7 +113,7 @@ def playermove(n):
         if smallwincheck() == "x" or smallwincheck() == "y" or smallwincheck() == "tie":
             restartButton.configure(state=NORMAL)
 
-
+# Clears the game table for a new match.
 def restart():
     if smallwincheck() == "y" or smallwincheck() == "x" or smallwincheck() == "tie":
         for n in range(81):
@@ -113,7 +128,7 @@ def restart():
     print(calctab)
     print(calctabsmall)
 
-
+# Checks if theres a completed table amoungst the small tables.
 def bigwincheck():
 
     k, i = None, None
@@ -144,7 +159,7 @@ def bigwincheck():
         if n % 9 == 8 and tie == 0 and calctabsmall[k // 3, k % 3] == 0:
             calctabsmall[k // 3, k % 3] = 6
 
-
+# Checks if someone won the game.
 def smallwincheck():
     playerwins = False
     if playerwins is False:
@@ -161,13 +176,18 @@ def smallwincheck():
                 playerwins = True
                 break
 
-        n = 0
-        for i in range(3):
-            for j in range(3):
-                if calctab[i, j] == 0:
-                    n = n + 1
-        if n == 0:
-            return "tie"
+    n, m = 0, 0
+    for i in range(9):  # check if the two diagonals are tied or not
+        if i % 3 == 0:
+            n, m = n + calctabsmall[i // 3, i // 3], m + calctabsmall[i // 3, 2 - i // 3]
+    if n == 18 or m == 18:
+        return "tie"
+
+    for i in range(9):
+        if calctabsmall[i // 3, i // 3] == 0:
+            break  # this cycle ends if any of the fields are still played
+        if i == 8:
+            return "tie"  # if all of the fields are finished, also the game is
 
     if wincounth == 3 or wincountv == 3 or wincountd == 3 or wincountd2 == 3:
         return "x"
