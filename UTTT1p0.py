@@ -6,15 +6,18 @@ import sys
 root = Tk()
 root.title("Ultimate Tic Tac Toe")
 
+# Matrix for background calculations.
 calctab = np.array([[0] * 9] * 9)
 calctabsmall = np.array([[0] * 3] * 3)
 
+# Buttons for the big table.
 bigbuttons = []
 for j in range(9):
     btn2 = Button(root, text="", state=DISABLED, font=("Arial 45 bold"), height=1, width=1)
     btn2.grid(row=j // 3 * 3, column=j % 3 * 3, rowspan=3, columnspan=3, sticky=S + N + W + E)
     bigbuttons.append(btn2)
 
+# Buttons for the small table.
 buttons = []
 for i in range(81):
     btn = Button(root, text="", font=("Arial 15 bold"), height=1, width=2,
@@ -44,9 +47,10 @@ messagebox.showinfo("Game Rules", "Like the original Tic-Tac-Toe, Player 1"
                     "an open square on any board for that turn. You win boards as usual, but you win the game "
                     "when you win three boards together (across rows, columns or diagnols).")
 
+# Global boolean for switching between player turns.
 bclick = True
 
-
+# Enables buttons according to the game rules.
 def deactivate_buttons(n):
     for i in range(81):
         buttons[i].configure(state=DISABLED, background="misty rose")
@@ -60,7 +64,7 @@ def deactivate_buttons(n):
         bi = (si * 3 + c // 3) * 9 + (sj * 3 + c % 3)
         buttons[bi].configure(state=NORMAL, background="pale green")
 
-
+# Playermove activated by button press.
 def playermove(n):
     if smallwincheck() != "y" and smallwincheck() != "x" and smallwincheck() != "tie":
         global bclick
@@ -109,7 +113,7 @@ def playermove(n):
         if smallwincheck() == "x" or smallwincheck() == "y" or smallwincheck() == "tie":
             restartButton.configure(state=NORMAL)
 
-
+# Clears the game table for a new match.
 def restart():
     if smallwincheck() == "y" or smallwincheck() == "x" or smallwincheck() == "tie":
         for n in range(81):
@@ -124,7 +128,7 @@ def restart():
     print(calctab)
     print(calctabsmall)
 
-
+# Checks if theres a completed table amoungst the small tables.
 def bigwincheck():
 
     k, i = None, None
@@ -155,7 +159,7 @@ def bigwincheck():
         if n % 9 == 8 and tie == 0 and calctabsmall[k // 3, k % 3] == 0:
             calctabsmall[k // 3, k % 3] = 6
 
-
+# Checks if someone won the game.
 def smallwincheck():
     playerwins = False
     if playerwins is False:
