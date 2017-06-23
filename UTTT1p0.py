@@ -51,6 +51,8 @@ messagebox.showinfo("Game Rules", "Like the original Tic-Tac-Toe, Player 1"
 bclick = True
 
 # Enables buttons according to the game rules.
+
+
 def deactivate_buttons(n):
     for i in range(81):
         buttons[i].configure(state=DISABLED, background="misty rose")
@@ -65,6 +67,8 @@ def deactivate_buttons(n):
         buttons[bi].configure(state=NORMAL, background="pale green")
 
 # Playermove activated by button press.
+
+
 def playermove(n):
     if smallwincheck() != "y" and smallwincheck() != "x" and smallwincheck() != "tie":
         global bclick
@@ -114,6 +118,8 @@ def playermove(n):
             restartButton.configure(state=NORMAL)
 
 # Clears the game table for a new match.
+
+
 def restart():
     if smallwincheck() == "y" or smallwincheck() == "x" or smallwincheck() == "tie":
         for n in range(81):
@@ -129,6 +135,8 @@ def restart():
     print(calctabsmall)
 
 # Checks if theres a completed table amoungst the small tables.
+
+
 def bigwincheck():
 
     k, i = None, None
@@ -160,6 +168,8 @@ def bigwincheck():
             calctabsmall[k // 3, k % 3] = 6
 
 # Checks if someone won the game.
+
+
 def smallwincheck():
     playerwins = False
     if playerwins is False:
@@ -184,9 +194,11 @@ def smallwincheck():
         return "tie"
 
     for i in range(9):
-        if calctabsmall[i // 3, i // 3] == 0:
+        if calctabsmall[i // 3, i % 3] == 0:
+            print("tie: ", i)
             break  # this cycle ends if any of the fields are still played
         if i == 8:
+            print("return tie")
             return "tie"  # if all of the fields are finished, also the game is
 
     if wincounth == 3 or wincountv == 3 or wincountd == 3 or wincountd2 == 3:
