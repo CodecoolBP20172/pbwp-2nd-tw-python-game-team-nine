@@ -26,10 +26,13 @@ def bigwincheck():
             x, y = k, i
             wincountd = wincountd + calctab[i + n % 3, j]
             wincountd2 = wincountd2 + calctab[i + n % 3, n // 9 * 3 + abs(j % 3 - 2) - n // 27 * 9]
+        if n % 3 == 2:
+            print("h: ", wincounth)
 
-        if abs(wincounth) == 3 or abs(wincountv) == 3 or abs(wincountd) == 3 or abs(wincountd2) == 3:
-
+        if abs(wincounth) == 3 or abs(wincountd) == 3 or abs(wincountd2) == 3:
+            print("winszar")
             calctabsmall[k // 3, k % 3] = int(wincounth / 3) + int(wincountd / 3) + int(wincountd2 / 3)
+        if abs(wincountv) == 3:  
             calctabsmall[k % 3, k // 3] = int(wincountv / 3)
 
 
